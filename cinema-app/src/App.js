@@ -1,10 +1,16 @@
 import React from 'react';
 import './App.css';
-import {} from 'react'
+import {Route, BrowserRouter as Router} from 'react-router-dom';
+import Board from './modules/board/Board';
+import Movie from './modules/movie/Movie';
 
-function App() {
-  return (
-    
+const App = props => 
+{
+  return(
+    <Router>
+        <Route exact path='/' component={Board} />
+        <Route exact path='/movie' component={Movie} />
+    </Router>
   );
 }
 
