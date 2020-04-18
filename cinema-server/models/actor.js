@@ -1,25 +1,20 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
 
-const Review = sequelize.define("review",{
+const Actor = sequelize.define("actor",{
     id:{
         type: Sequelize.INTEGER,
-        autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    body:{
+    name:{
         type: Sequelize.STRING,
         allowNull: false
     },
-    rating:{
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-    date:{
+    image:{
         type: Sequelize.STRING,
         allowNull: false
     }
 });
 
-module.exports = Review;
+module.exports = Actor;

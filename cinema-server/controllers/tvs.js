@@ -1,47 +1,47 @@
-const Movie = require("../models/movie");
+const TV = require("../models/tv");
 const Axios = require("axios");
 const apiKey = require("../GLOBAL/api-key");
 
-exports.addMovie = (req, res, next) => {
+exports.addTV = (req, res, next) => {
   const id = req.body.id;
-  let movie = {};
+  let series = {};
   let cast = {};
   let trailer = {};
 
   Axios.all([
     Axios.get(
-      "https://api.themoviedb.org/3/movie/" +
+      "https://api.themoviedb.org/3/tv/" +
         id +
         "?api_key=" +
         apiKey +
         "&language=en-US"
     ),
     Axios.get(
-      "https://api.themoviedb.org/3/movie/" + id + "/credits?api_key=" + apiKey
+      "https://api.themoviedb.org/3/tv/" + id + "/credits?api_key=" + apiKey
     ),
     Axios.get(
-      "https://api.themoviedb.org/3/movie/" +
+      "https://api.themoviedb.org/3/tv/" +
         id +
         "/videos?api_key=" +
         apiKey +
         "&language=en-US"
     )
   ]).then(
-    Axios.spread((movieData, castData, trailerData) => {
-      movie = movieData.data;
+    Axios.spread((seriesData, castData, trailerData) => {
+      series = seriesData.data;
       cast = castData.data.cast.slice(0,10);
       trailer = trailerData.data.results[0].key;
-      const name = movie["original_title"];
-      const poster = movie["poster_path"];
-      const rating = movie["vote_average"];
-      const year = movie["release_date"].split("-")[0];
-      const overview = movie["overview"];
-      const genres = movie["genres"];
+      const name = series["original_name"];
+      const poster = series["poster_path"];
+      const rating = series["vote_average"];
+      const year = series["first_air_date"].split("-")[0];
+      const overview = series["overview"];
+      const genres = series["genres"];
 
       res.status(201).json({
         // success on create
-        message: "Movie added Successfully",
-        movie: {
+        message: "Series added Successfully",
+        series: {
           name: name,
           poster: poster,
           rating: rating,
