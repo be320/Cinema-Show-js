@@ -5,12 +5,21 @@ import Search from "../sideComponents/Search";
 import Card from "../sideComponents/Card";
 import Pagination from "../sideComponents/Pagination";
 import "../style.css";
+const axios = require('axios');
 
 const Board = props => {
 
   const [form,setForm] = useState(false);
 
 
+  useEffect(()=>{
+
+  },[])
+
+  const getUsers = () => 
+  {
+   
+  }
 
   const handleForm = (value) => 
   {
@@ -36,7 +45,7 @@ const Board = props => {
 
   return (
         <div className="container">
-          <NavBar handleForm={handleForm} />
+          <NavBar  handleForm={handleForm} />
           <div className="body">
             <div className="body-overlay"></div>
             <DrawForm />

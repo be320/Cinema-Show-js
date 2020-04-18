@@ -1,5 +1,6 @@
 import React from 'react';
 import Poster from '../../assets/images/you.jpg';
+import Star from '../sideComponents/Star'
 
 const Card = props => 
 {
@@ -16,15 +17,12 @@ const Card = props =>
           <div className="overlay"></div>
         </div>
         <div className="title">
-          <h6>Movie Name</h6>
+          <h6>You</h6>
         </div>
         <div className="rating">
-          <i
-            className="fa fa-star"
-            style={{color:'orange',fontSize: '25px',marginRight: '10px'}}
-          ></i>
+          <Star style={{color:'orange',fontSize: '30px',marginRight: '5px',marginTop:'0px'}} />
           <p className="rating-value">
-            <span className="bold-rating">Movie Rating</span>/10
+            <span className="bold-rating">7.4</span>/10
           </p>
         </div>
       </a>

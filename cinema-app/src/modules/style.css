@@ -251,7 +251,7 @@
     /* z-index: 2; */
     border-radius: 10px;
     margin: 2% auto; /* 15% from the top and centered */
-    padding: 20px;
+    padding:20px;
   }
   
   #auth-txt-email {
@@ -355,8 +355,8 @@
   }
   
   .facebook {
-    background-color: #3b5998;
-    border: 5px solid #3b5998;
+    background-color: #fff;
+    border: 2px solid white;
     min-width: 20px;
     border-radius: 50%;
     padding: 15px;
@@ -572,7 +572,6 @@
   }
   
   div#my-review-div{
-    display: none;
     position: fixed;
     z-index: 5;
     left: 0;
@@ -586,7 +585,7 @@
   
   div.my-review-content{
     background-color: rgba(0,0,0,0.87);
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 13% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     width: 50%; /* Could be more or less, depending on screen size */
