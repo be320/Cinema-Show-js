@@ -31,6 +31,10 @@ const Movie = (props) => {
     setForm(value);
   }
 
+  const handleContent = value => {
+    
+  }
+
   const handleReview = (value) => 
   {
     setReview(value);
@@ -70,7 +74,7 @@ const Movie = (props) => {
 
   return (
     <div className="container">
-      <NavBar  handleForm={handleForm} />
+      <NavBar handleForm={handleForm} mainProps={props} />
 
       <div className="body">
         <div className="body-overlay"></div>

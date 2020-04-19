@@ -4,6 +4,8 @@ import Form from "../sideComponents/Form";
 import Search from "../sideComponents/Search";
 import Card from "../sideComponents/Card";
 import "../style.css";
+import { connect } from 'react-redux';
+import { showMovies,showSeries } from '../../redux';
 const axios = require("axios");
 
 const Board = props => {
@@ -13,15 +15,17 @@ const Board = props => {
   const [count, setCount] = useState("");
   const [page, setPage] = useState(0);
   const [pages, setPages] = useState([]);
-  const [content, setContent] = useState(0); //0 for movies and 1 for series
+  
 
 
 
   useEffect(() => {
 
-    content ? getSeries() : getMovies();
+    console.log(props)
+
+   props.content ? getSeries() : getMovies();
     
-  },[page,content]);
+  },[page,props]);
 
   const getMovies = () => {
  
@@ -47,10 +51,6 @@ const Board = props => {
     setForm(value);
   };
 
-  const handleContent = value => {
-    setContent(value)
-  }
-
   const handlePage = e => {
     console.log(e.target.className)
     setPage(e.target.className);
@@ -66,7 +66,7 @@ const Board = props => {
 
   return (
     <div className="container">
-      <NavBar handleForm={handleForm} handleContent={handleContent} />
+      <NavBar handleForm={handleForm} mainProps={props} />
       <div className="body">
         <div className="body-overlay"></div>
         <DrawForm />
@@ -74,11 +74,11 @@ const Board = props => {
         <Search />
 
         <div className="board">
-          {content? series.map(s => (
-            <Card data={s} content={content} />
+          {props.content? series.map(s => (
+            <Card data={s} content={props.content} />
           )) : movies.map(m => (
-            <Card data={m} content={content} />
-          ))}
+            <Card data={m} content={props.content} />
+          ))} 
         </div>
         <ul className="pagination">
           { Object.keys(pages).length?  pages.map(page => {
@@ -94,4 +94,18 @@ const Board = props => {
   );
 };
 
-export default Board;
+const mapStateToProps = state => ({
+  content: state.contentReducer.content,
+})
+
+const mapDispatchToProps = {
+    showMovies,
+    showSeries
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Board);
+
+

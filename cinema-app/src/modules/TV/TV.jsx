@@ -70,7 +70,7 @@ const TV = (props) => {
 
   return (
     <div className="container">
-      <NavBar  handleForm={handleForm} />
+      <NavBar  handleForm={handleForm} mainProps={props} />
 
       <div className="body">
         <div className="body-overlay"></div>

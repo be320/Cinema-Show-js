@@ -1,20 +1,29 @@
 import React from 'react';
 import Logo from '../../assets/images/logo.PNG';
+import { connect } from 'react-redux';
+import { showMovies,showSeries } from '../../redux';
 
 
-const NavBar = ({handleForm,handleContent}) => 
+const NavBar = (props) => 
 {
+  console.log(props)
 
   const showAuth = () => 
   {
     console.log('navbar action')
-    handleForm(true);
+    props.handleForm(true);
   }
 
-  const switchContent = (e) => 
-  {
-    handleContent(e.target.id);
+  const movieClick = () => {
+    props.showMovies();
+    props.mainProps.history.push('/');
   }
+
+  const seriesClick = () => {
+    props.showSeries();
+    props.mainProps.history.push('/');
+  }
+
 
     return(
 <div className="header">
@@ -25,11 +34,11 @@ const NavBar = ({handleForm,handleContent}) =>
           height="150px"
           className="logo"
         />
-        <a href="/" className="cat" id={0} onClick={switchContent}>
+        <div className="cat" onClick={movieClick}>
                 Movies
-        </a>
+        </div>
         
-        <div className="cat" id={1} onClick={switchContent}>
+        <div className="cat" onClick={seriesClick}>
           TV Shows
         </div>
 
@@ -43,4 +52,16 @@ const NavBar = ({handleForm,handleContent}) =>
     );
 }
 
-export default NavBar;
+const mapStateToProps = state => ({
+  content: state.contentReducer.content,
+})
+
+const mapDispatchToProps = {
+    showMovies,
+    showSeries
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(NavBar);
