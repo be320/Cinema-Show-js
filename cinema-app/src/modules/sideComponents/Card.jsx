@@ -1,14 +1,14 @@
 import React from 'react';
-import Poster from '../../assets/images/you.jpg';
 import Star from '../sideComponents/Star'
+const imgKey = require('../../GLOBAL/img-key');
 
-const Card = props => 
+const Card = ({data}) => 
 {
     return(
-        <a  className="movie" href="/movie"> 
+        <a  className="movie" href={'/movie/'+data.id}> 
         <div className="poster">
           <img
-            src= {Poster}
+            src= {imgKey+data.poster}
             width="170px"
             height="260px"
             className="poster-img"
@@ -17,12 +17,12 @@ const Card = props =>
           <div className="overlay"></div>
         </div>
         <div className="title">
-          <h6>You</h6>
+          <h6>{data.name}</h6>
         </div>
         <div className="rating">
           <Star style={{color:'orange',fontSize: '30px',marginRight: '5px',marginTop:'0px'}} />
           <p className="rating-value">
-            <span className="bold-rating">7.4</span>/10
+            <span className="bold-rating">{data.rating}</span>/10
           </p>
         </div>
       </a>

@@ -197,16 +197,8 @@ const Form = ({ handleForm }) => {
       password: md5(password)
     }
 
-    const movie = {id:338762}
 
-    axios.post(
-      'http://localhost:8080/movie',movie
-    ).then( response => {
-      console.log(response);
-      handleForm(false);
-    }).catch( function(error){
-      console.log(error);
-    });
+  
 
   
   }

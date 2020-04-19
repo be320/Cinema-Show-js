@@ -24,6 +24,10 @@ const Movie = sequelize.define("movie",{
         allowNull: false
     },
     overview:{
+        type: Sequelize.TEXT,
+        allowNull: false
+    },
+    trailer:{
         type: Sequelize.STRING,
         allowNull: false
     }

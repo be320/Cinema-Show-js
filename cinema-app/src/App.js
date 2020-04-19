@@ -9,7 +9,7 @@ const App = props =>
   return(
     <Router>
         <Route exact path='/' component={Board} />
-        <Route exact path='/movie' component={Movie} />
+        <Route exact path='/movie/:id' component={Movie} />
     </Router>
   );
 }

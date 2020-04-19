@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 const movieController = require('../controllers/movies');
+const tvController = require('../controllers/tvs');
 
 
 router.get('/',(req,res,next)=>
@@ -10,6 +11,12 @@ router.get('/',(req,res,next)=>
 });
 
 router.post('/movie',movieController.addMovie);
+
+router.get('/movies',movieController.getMovies);
+
+router.get('/movie/:id',movieController.getMovie);
+
+router.post('/tv',tvController.addTV);
 
 
 module.exports = router;

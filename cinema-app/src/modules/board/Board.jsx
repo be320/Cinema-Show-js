@@ -10,14 +10,21 @@ const axios = require('axios');
 const Board = props => {
 
   const [form,setForm] = useState(false);
+  const [movies,setMovies] = useState([]);
 
 
   useEffect(()=>{
-
+    getMovies();
   },[])
 
-  const getUsers = () => 
+  const getMovies = async () => 
   {
+    
+    const data = await axios.get('http://localhost:8080/movies');
+
+    setMovies(data.data.movies)
+
+    console.log(data.data.movies)
    
   }
 
@@ -42,6 +49,20 @@ const Board = props => {
     }
   }
 
+  // const RenderCards = () =>
+  // {
+  //   if(movies.length>0){
+
+  //     const data = 
+
+  //     return({data})
+
+  //   }
+  //   else
+  //   return(<div></div>)
+  
+  // }
+
 
   return (
         <div className="container">
@@ -53,9 +74,8 @@ const Board = props => {
             <Search />
 
             <div className="board">
-              {/* $movie->init(); */}
 
-              <Card />
+             {movies.map((m)=>( <Card data={m} />))}
             </div>
             <Pagination />
           </div>

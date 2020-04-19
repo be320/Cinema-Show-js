@@ -24,6 +24,10 @@ const TV = sequelize.define("tv",{
         allowNull: false
     },
     overview:{
+        type: Sequelize.TEXT,
+        allowNull: false
+    },
+    trailer:{
         type: Sequelize.STRING,
         allowNull: false
     }

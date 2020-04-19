@@ -1,6 +1,10 @@
 const TV = require("../models/tv");
+const Actor = require('../models/actor');
+const Genre = require('../models/genre');
 const Axios = require("axios");
 const apiKey = require("../GLOBAL/api-key");
+const GenreOfTV = require('../models/genreOfTV');
+const ActorInTV = require('../models/actorInTV');
 
 exports.addTV = (req, res, next) => {
   const id = req.body.id;
@@ -38,30 +42,95 @@ exports.addTV = (req, res, next) => {
       const overview = series["overview"];
       const genres = series["genres"];
 
-      res.status(201).json({
-        // success on create
-        message: "Series added Successfully",
-        series: {
-          name: name,
-          poster: poster,
-          rating: rating,
-          year: year,
-          overview: overview,
-          genres: genres,
-          cast: cast,
-          trailer: trailer
-        }
-      });
+      TV.create({
+        id: id,
+        name:name,
+        poster:poster,
+        rating:rating,
+        year:year,
+        overview:overview,
+        trailer:trailer
+        }).then(result=>{
+          res.status(201).json({
+            // success on create
+            message: "Series added Successfully",
+            series: { name: name}
+          });
+        }).catch(err => console.log(err))
+
+
+        genres.map((g)=>{
+
+          const genreId = g['id'];
+          const genreName = g['name'];
+  
+          Genre.create({
+            id: genreId,
+            name:genreName
+          
+            }).then(result=>{
+              res.status(201).json({
+                // success on create
+                message: "Genre added Successfully",
+                genre: { name: genreName}
+              });
+            }).catch(err => console.log(err))
+  
+  
+            GenreOfTV.create({
+              genreId: genreId,
+              tvId: id
+              }).then(result=>{
+                res.status(201).json({
+                  // success on create
+                  message: "Genre added To The Series",
+                  genre: { name: genreName},
+                  series: { name: name}
+                });
+              }).catch(err => console.log(err))
+  
+  
+        });
+
+
+        cast.map((c)=>{
+
+          const actorId = c['id'];
+          const actorName = c['name'];
+          const actorImage = c['profile_path'];
+          const actorRole = c['character'];
+  
+          Actor.create({
+            id: actorId,
+            name:actorName,
+            image:actorImage
+            }).then(result=>{
+              res.status(201).json({
+                // success on create
+                message: "Actor added Successfully",
+                actor: { name: actorName}
+              });
+            }).catch(err => console.log(err))
+  
+            ActorInTV.create({
+              rolename:actorRole,
+              actorId: actorId,
+              tvId: id
+              }).then(result=>{
+                res.status(201).json({
+                  // success on create
+                  message: "Actor added to Cast",
+                  series: { name: name},
+                  actor: {name: actorName, 
+                          rolename: actorRole }
+                });
+              }).catch(err => console.log(err))
+  
+        });
+
+
     })
   );
 
-  // Movie.create({
-  //     id: id,
-  //     name:
-  //     }).then(result=>{
-  //         res.status(201).json({ // success on create
-  //             message: 'User added Successfully',
-  //             user:{user: req.body}
-  //         });
-  //     }).catch(err => console.log(err))
+
 };

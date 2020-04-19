@@ -1,11 +1,46 @@
 const Movie = require("../models/movie");
+const Actor = require('../models/actor');
+const Genre = require('../models/genre');
+const GenreOfMovie = require('../models/genreOfMovie');
+const ActorInMovie = require('../models/actorInMovie');
+
 const Axios = require("axios");
 const apiKey = require("../GLOBAL/api-key");
+
+
+
+exports.getMovies = (req,res,next) => {
+
+  Movie.findAll({offset:0,limit:18}).then(function(movies) {
+
+    console.log(movies)
+
+  res.status(200).json({
+    // success on fetching
+    movies:movies
+  });
+     
+});
+}
+
+exports.getMovie = (req,res,next) => {
+      let id = req.params.id;
+      Movie.findByPk(id).then(function(movie) {
+        console.log(movie) 
+      res.status(200).json({
+        // success on fetching
+        movie:movie
+      });
+         
+    });
+}
+
+
 
 exports.addMovie = (req, res, next) => {
   const id = req.body.id;
   let movie = {};
-  let cast = {};
+  let cast = [];
   let trailer = {};
 
   Axios.all([
@@ -38,30 +73,99 @@ exports.addMovie = (req, res, next) => {
       const overview = movie["overview"];
       const genres = movie["genres"];
 
-      res.status(201).json({
-        // success on create
-        message: "Movie added Successfully",
-        movie: {
-          name: name,
-          poster: poster,
-          rating: rating,
-          year: year,
-          overview: overview,
-          genres: genres,
-          cast: cast,
-          trailer: trailer
-        }
+      console.log(movie);
+
+     Movie.create({
+      id: id,
+      name:name,
+      poster:poster,
+      rating:rating,
+      year:year,
+      overview:overview,
+      trailer:trailer
+      }).then(result=>{
+        res.status(201).json({
+          // success on create
+          message: "Movie added Successfully",
+          movie: { name: name}
+        });
+      }).catch(err => console.log(err))
+
+
+      genres.map((g)=>{
+
+        const genreId = g['id'];
+        const genreName = g['name'];
+
+        Genre.create({
+          id: genreId,
+          name:genreName,
+        
+          }).then(result=>{
+            res.status(201).json({
+              // success on create
+              message: "Genre added Successfully",
+              genre: { name: genreName}
+            });
+          }).catch(err => console.log(err))
+
+
+          GenreOfMovie.create({
+            genreId: genreId,
+            movieId: id
+          
+            }).then(result=>{
+              res.status(201).json({
+                // success on create
+                message: "Genre added To The Movie",
+                genre: { name: genreName},
+                movie: { name: name}
+              });
+            }).catch(err => console.log(err))
+
+
       });
+
+
+      cast.map((c)=>{
+
+        const actorId = c['id'];
+        const actorName = c['name'];
+        const actorImage = c['profile_path'];
+        const actorRole = c['character'];
+
+        Actor.create({
+          id: actorId,
+          name:actorName,
+          image:actorImage
+          }).then(result=>{
+            res.status(201).json({
+              // success on create
+              message: "Actor added Successfully",
+              actor: { name: actorName}
+            });
+          }).catch(err => console.log(err))
+
+          ActorInMovie.create({
+            rolename:actorRole,
+            actorId: actorId,
+            movieId: id
+            }).then(result=>{
+              res.status(201).json({
+                // success on create
+                message: "Actor added to Cast",
+                movie: { name: name},
+                actor: {name: actorName, 
+                        rolename: actorRole }
+              });
+            }).catch(err => console.log(err))
+
+      });
+
+
+     
     })
   );
 
-  // Movie.create({
-  //     id: id,
-  //     name:
-  //     }).then(result=>{
-  //         res.status(201).json({ // success on create
-  //             message: 'User added Successfully',
-  //             user:{user: req.body}
-  //         });
-  //     }).catch(err => console.log(err))
+
 };

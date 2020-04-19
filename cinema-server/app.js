@@ -72,8 +72,8 @@ Actor.belongsToMany(TV,{through: ActorInTV});
 TV.belongsToMany(Actor,{through: ActorInTV});
 
 
-
-sequelize.sync({force:true}).then(result => {
+//{force:true} if you want to update db structure
+sequelize.sync().then(result => {
   console.log(result);
   app.listen(8080);
 }).catch(err => {

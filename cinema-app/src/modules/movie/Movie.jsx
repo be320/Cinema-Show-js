@@ -1,4 +1,4 @@
-import React ,{useState} from "react";
+import React ,{useState, useEffect} from "react";
 import NavBar from "../sideComponents/NavBar";
 import Form from "../sideComponents/Form";
 import Poster from "../../assets/images/you.jpg";
@@ -6,11 +6,25 @@ import Star from "../sideComponents/Star";
 import Plus from "../sideComponents/Plus";
 import Review from "../sideComponents/Review"
 import "../style.css";
+const axios = require('axios');
+const imgKey = require('../../GLOBAL/img-key');
+const youtube = require('../../GLOBAL/youtube');
 
-const Movie = () => {
+const Movie = (props) => {
 
   const [form,setForm] = useState(false);
   const [review,setReview] = useState(false);
+  const [movie,setMovie] = useState({});
+
+  useEffect(()=>{
+    getMovie();
+  },[]);
+
+  const getMovie = async () => {
+    const data = await axios.get('http://localhost:8080/movie/'+props.match.params.id);
+    setMovie(data.data.movie)
+    console.log(data.data.movie)
+  }
 
   const handleForm = (value) => 
   {
@@ -66,7 +80,7 @@ const Movie = () => {
           <div className="portofolio">
             <div className="movie-poster">
               <img
-                src={Poster}
+                src={imgKey+movie.poster}
                 width="330px"
                 height="500px"
                 className="poster-img"
@@ -76,30 +90,34 @@ const Movie = () => {
             <div className="rating">
             <Star style={{color:'orange',fontSize: '35px',marginRight: '5px',marginTop:'0px'}} />
               <p className="rating-value">
-                <span className="bold-rating">7.8</span>/10
+                <span className="bold-rating">{movie.rating}</span>/10
               </p>
             </div>
           </div>
           <div className="details">
             <div className="movie-title">
-              <h1 className="title-head">You</h1>
-              <p className="title-year">2018</p>
+              <h1 className="title-head">{movie.name}</h1>
+              <p className="title-year">{movie.year}</p>
             </div>
             <iframe
               width="700"
               height="345"
-              src="https://www.youtube.com/embed/ga1m0wjzscU"
+              src={'https://www.youtube.com/embed/'+movie.trailer}
               title="trailer"
               className="trailer"
             ></iframe>
             <div className="overview">
               <h2 className="overview-head">Overview:</h2>
-              <h6 className="overview-body">It is a great Movie</h6>
+              <h6 className="overview-body">{movie.overview}</h6>
             </div>
             <div className="cast">
               <div className="cast-head">
                 <h2>Cast:</h2>
               </div>
+
+              {
+                
+              }
 
               <div className="actor">
                 <div className="actor-img-div">
