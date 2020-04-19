@@ -102,7 +102,7 @@ const Movie = (props) => {
             <iframe
               width="700"
               height="345"
-              src={'https://www.youtube.com/embed/'+movie.trailer}
+              src= {Object.keys(movie).length? `https://www.youtube.com/embed/${movie.trailer}` : ''}
               title="trailer"
               className="trailer"
             ></iframe>
@@ -116,13 +116,12 @@ const Movie = (props) => {
               </div>
 
               {
-                
-              }
-
-              <div className="actor">
+               Object.keys(movie).length?  movie.actors.map((actor)=>{
+                  return(
+                    <div className="actor">
                 <div className="actor-img-div">
                   <img
-                    src={Poster}
+                    src={imgKey+actor.image}
                     width="100px"
                     height="150px"
                     className="actor-img"
@@ -130,12 +129,17 @@ const Movie = (props) => {
                   />
                 </div>
                 <div className="actor-name">
-                  <h6 className="overview-body"> Ahmed</h6>
+                  <h6 className="overview-body">{actor.name}</h6>
                 </div>
                 <div className="actor-role">
-                  <p className="title-year">King Lear</p>
+                  <p className="title-year">{actor.actorInMovie.rolename}</p>
                 </div>
               </div>
+                  )
+                }) : <div></div>
+              }
+
+              
             </div>
 
             <div className="reviews">

@@ -12,7 +12,7 @@ router.get('/',(req,res,next)=>
 
 router.post('/movie',movieController.addMovie);
 
-router.get('/movies',movieController.getMovies);
+router.get('/movies/:page',movieController.getMovies);
 
 router.get('/movie/:id',movieController.getMovie);
 

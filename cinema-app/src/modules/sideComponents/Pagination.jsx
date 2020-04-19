@@ -1,15 +1,11 @@
 import React from "react";
 
-const Pagination = props => {
+const Pagination = ({count,handlePage}) => {
+
+
   return (
-    <ul className="pagination">
-      <li id="page">1</li>
-      <li id="page">2</li>
-      <li id="page">3</li>
-      <li id="page">4</li>
-      <li id="page">5</li>
-    </ul>
+<div></div>
   );
 };
-
+{/* <li id="page">{i+1}</li> */}
 export default Pagination;

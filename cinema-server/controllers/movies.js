@@ -11,13 +11,22 @@ const apiKey = require("../GLOBAL/api-key");
 
 exports.getMovies = (req,res,next) => {
 
-  Movie.findAll({offset:0,limit:18}).then(function(movies) {
+  let page = req.params.page;
 
-    console.log(movies)
+
+  Movie.findAndCountAll({offset:page*18,limit:18}).then(function(movies) {
+
+   let arr = [];
+   for(let i=0;i<Math.ceil(movies.count/18);i++)
+   {
+    arr[i] = i;
+   }
 
   res.status(200).json({
     // success on fetching
-    movies:movies
+    movies:movies.rows,
+    count:movies.count,
+    dummy:arr
   });
      
 });
@@ -25,14 +34,16 @@ exports.getMovies = (req,res,next) => {
 
 exports.getMovie = (req,res,next) => {
       let id = req.params.id;
-      Movie.findByPk(id).then(function(movie) {
-        console.log(movie) 
-      res.status(200).json({
-        // success on fetching
-        movie:movie
-      });
-         
+
+      Movie.findByPk(id,{ include: [Actor,Genre] }).then(function(movie) {
+        res.status(200).json({
+          // success on fetching
+          movie:movie
+        });  
     });
+
+
+ 
 }
 
 
