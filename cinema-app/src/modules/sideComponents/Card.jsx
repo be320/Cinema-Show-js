@@ -2,10 +2,10 @@ import React from 'react';
 import Star from '../sideComponents/Star'
 const imgKey = require('../../GLOBAL/img-key');
 
-const Card = ({data}) => 
+const Card = ({data,content}) => 
 {
     return(
-        <a  className="movie" href={'/movie/'+data.id}> 
+        <a  className="movie" href={content? '/tv/'+data.id:  '/movie/'+data.id}> 
         <div className="poster">
           <img
             src= {imgKey+data.poster}

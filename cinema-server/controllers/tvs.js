@@ -6,6 +6,50 @@ const apiKey = require("../GLOBAL/api-key");
 const GenreOfTV = require('../models/genreOfTV');
 const ActorInTV = require('../models/actorInTV');
 
+
+
+
+
+exports.getTVs = (req,res,next) => {
+
+  let page = req.params.page;
+
+
+  TV.findAndCountAll({offset:page*18,limit:18}).then(function(series) {
+
+   let arr = [];
+   for(let i=0;i<Math.ceil(series.count/18);i++)
+   {
+    arr[i] = i;
+   }
+
+  res.status(200).json({
+    // success on fetching
+    series:series.rows,
+    count:series.count,
+    dummy:arr
+  });
+     
+});
+}
+
+exports.getTV = (req,res,next) => {
+      let id = req.params.id;
+
+      TV.findByPk(id,{ include: [Actor,Genre] }).then(function(serie) {
+        res.status(200).json({
+          // success on fetching
+          serie:serie
+        });  
+    });
+}
+
+
+
+
+
+
+
 exports.addTV = (req, res, next) => {
   const id = req.body.id;
   let series = {};

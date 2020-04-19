@@ -18,5 +18,9 @@ router.get('/movie/:id',movieController.getMovie);
 
 router.post('/tv',tvController.addTV);
 
+router.get('/tvs/:page',tvController.getTVs);
+
+router.get('/tv/:id',tvController.getTV);
+
 
 module.exports = router;

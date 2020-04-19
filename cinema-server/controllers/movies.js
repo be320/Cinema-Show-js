@@ -41,9 +41,6 @@ exports.getMovie = (req,res,next) => {
           movie:movie
         });  
     });
-
-
- 
 }
 
 

@@ -2,13 +2,18 @@ import React from 'react';
 import Logo from '../../assets/images/logo.PNG';
 
 
-const NavBar = ({handleForm}) => 
+const NavBar = ({handleForm,handleContent}) => 
 {
 
   const showAuth = () => 
   {
     console.log('navbar action')
     handleForm(true);
+  }
+
+  const switchContent = (e) => 
+  {
+    handleContent(e.target.id);
   }
 
     return(
@@ -20,11 +25,11 @@ const NavBar = ({handleForm}) =>
           height="150px"
           className="logo"
         />
-        <a href="/" className="cat">
+        <a href="/" className="cat" id={0} onClick={switchContent}>
                 Movies
         </a>
         
-        <div className="cat">
+        <div className="cat" id={1} onClick={switchContent}>
           TV Shows
         </div>
 
