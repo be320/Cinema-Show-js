@@ -139,10 +139,10 @@ const Board = props => {
         return(
           <img
           src={NotFound}
-          alt="logo"
+          alt="notFound"
           width="565px"
           height="300px"
-          className="logo"
+          className="notFound"
         />
         )
       }
@@ -160,10 +160,10 @@ const Board = props => {
         return(
           <img
           src={NotFound}
-          alt="logo"
+          alt="notFound"
           width="565px"
           height="300px"
-          className="logo"
+          className="notFound"
         />
         )
       }

@@ -51,6 +51,12 @@
     margin: 10px;
     min-width: 150px;
   }
+
+  img.notFound {
+    margin: 20px;
+    min-width: 150px;
+    border: 5px solid rgba(0,0,0,.87);
+  }
   
   .cat {
     display: flex;
