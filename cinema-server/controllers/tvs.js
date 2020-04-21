@@ -6,8 +6,38 @@ const apiKey = require("../GLOBAL/api-key");
 const GenreOfTV = require('../models/genreOfTV');
 const ActorInTV = require('../models/actorInTV');
 
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 
+exports.searchTVs = (req,res,next) => {
+  let page = req.params.page;
+  let query = req.params.query;
+
+
+  TV.findAndCountAll({offset:page*18,limit:18,
+    where: {
+      name:  {
+        [Op.like]: '%'+query+'%'
+      }
+  }}).then(function(series) {
+
+   let arr = [];
+   for(let i=0;i<Math.ceil(series.count/18);i++)
+   {
+    arr[i] = i;
+   }
+
+  res.status(200).json({
+    // success on fetching
+    series:series.rows,
+    count:series.count,
+    dummy:arr
+  });
+     
+});
+
+}
 
 
 exports.getTVs = (req,res,next) => {

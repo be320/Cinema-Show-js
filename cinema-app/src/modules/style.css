@@ -108,7 +108,7 @@
     z-index: 2;
   }
   
-  .search-txt {
+  #search-txt {
     border: 2px solid #9c2a2a;
     margin: 20px 60px;
     max-width: 100%;

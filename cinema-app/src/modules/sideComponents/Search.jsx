@@ -1,26 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import SearchIcon from '@material-ui/icons/SearchOutlined';
 
 
+const Search = ({handleQuery, handleSearch}) => {
 
 
-
-
-const Search = props => {
-
-  const[searchWord,setSearchWord] = useState('');
-
-  const updateWord = event => 
+  const updateQuery = event => 
   {
-    setSearchWord(event.target.value)
-    console.log(searchWord)
+   handleQuery(event.target.value)
+   if(event.target.value ==="")
+      handleSearch(false);
+   else{
+     handleSearch(true)
+   }   
   }
+
+  const search = () => {
+    // handleSearch(true)
+  }
+
   return (
     <div className="search">
-      <input type="text" placeholder="Search..." className="search-txt" onChange={updateWord} />
-      <div className="search-image-div">
+      <input type="text" placeholder="Search..." id="search-txt" onChange={updateQuery} />
+      {/* <div className="search-image-div" onClick={search}>
         <SearchIcon style={{ color: "white" }} />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -7,6 +7,7 @@ import "../style.css";
 import { connect } from 'react-redux';
 import { showMovies,showSeries } from '../../redux';
 import Error from "../sideComponents/Error";
+import NotFound from "../../assets/images/not found.jpg"
 const axios = require("axios");
 
 const Board = props => {
@@ -15,8 +16,10 @@ const Board = props => {
   const [series, setSeries] = useState([]);
   const [count, setCount] = useState("");
   const [page, setPage] = useState(0);
+  const [query, setQuery] = useState("");
   const [pages, setPages] = useState([]);
   const [error,setError] = useState(false);
+  const [search,setSearch] = useState(false);
   const [errorMessages,setErrorMessages] = useState([]);
   
 
@@ -24,11 +27,16 @@ const Board = props => {
 
   useEffect(() => {
 
-    console.log(props)
 
-   props.content ? getSeries() : getMovies();
+    if(search === false){
+      props.content ? getSeries() : getMovies();
+    }
+    else{
+      props.content ? searchSeries() : searchMovies();
+    }
+
     
-  },[page,props]);
+  },[page,props,query,search]);
 
   const getMovies = () => {
  
@@ -40,6 +48,8 @@ const Board = props => {
     })
   };
 
+
+
   const getSeries = () => {
  
     axios.get("http://localhost:8080/tvs/" + page).then(res=>{
@@ -50,9 +60,40 @@ const Board = props => {
     })
   };
 
+  const searchMovies = () => {
+
+    axios.get("http://localhost:8080/movies/"+query+"/" + page).then(res=>{
+      setMovies(res.data.movies);
+      setCount(res.data.count);
+      setPages(res.data.dummy);
+     
+    })
+  }
+
+  const searchSeries = () => {
+
+    console.log('wow series')
+
+    axios.get("http://localhost:8080/tvs/"+query+"/" + page).then(res=>{
+      setSeries(res.data.series);
+      setCount(res.data.count);
+      setPages(res.data.dummy);
+     
+    })
+  }
+
   const handleForm = value => {
     setForm(value);
   };
+
+  const handleQuery = value =>{
+    console.log(value);
+    setQuery(value)
+  }
+
+  const handleSearch = value => {
+    setSearch(value);
+  }
 
   const handleError = (value,errors) => {
     errors = errors || []; 
@@ -82,22 +123,67 @@ const Board = props => {
     }
   };
 
+  const RenderBoard = () => {
+    console.log(series);
+    console.log(movies);
+    if(props.content)
+    {
+      if(series.length>0){
+        return(
+          series.map(s => (
+            <Card data={s} content={props.content} />
+          )) 
+        )
+      }
+      else{
+        return(
+          <img
+          src={NotFound}
+          alt="logo"
+          width="565px"
+          height="300px"
+          className="logo"
+        />
+        )
+      }
+    }
+    else{
+
+      if(movies.length>0){
+        return(
+          movies.map(m => (
+            <Card data={m} content={props.content} />
+          )) 
+        )
+      }
+      else{
+        return(
+          <img
+          src={NotFound}
+          alt="logo"
+          width="565px"
+          height="300px"
+          className="logo"
+        />
+        )
+      }
+
+    }
+    
+  }
+
   return (
     <div className="container">
-      <NavBar handleForm={handleForm} mainProps={props} />
+      <NavBar handleForm={handleForm} mainProps={props} handleSearch = {handleSearch} />
       <div className="body">
         <div className="body-overlay"></div>
         <DrawForm />
         <DrawError />
 
-        <Search />
+        <Search handleQuery={handleQuery} handleSearch = {handleSearch} />
 
         <div className="board">
-          {props.content? series.map(s => (
-            <Card data={s} content={props.content} />
-          )) : movies.map(m => (
-            <Card data={m} content={props.content} />
-          ))} 
+          <RenderBoard />
         </div>
         <ul className="pagination">
           { Object.keys(pages).length?  pages.map(page => {

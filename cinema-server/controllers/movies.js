@@ -6,6 +6,38 @@ const ActorInMovie = require('../models/actorInMovie');
 
 const Axios = require("axios");
 const apiKey = require("../GLOBAL/api-key");
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
+
+exports.searchMovies = (req,res,next) => {
+  let page = req.params.page;
+  let query = req.params.query;
+
+
+  Movie.findAndCountAll({offset:page*18,limit:18,
+    where: {
+      name:  {
+        [Op.like]: '%'+query+'%'
+      }
+  }}).then(function(movies) {
+
+   let arr = [];
+   for(let i=0;i<Math.ceil(movies.count/18);i++)
+   {
+    arr[i] = i;
+   }
+
+  res.status(200).json({
+    // success on fetching
+    movies:movies.rows,
+    count:movies.count,
+    dummy:arr
+  });
+     
+});
+
+}
 
 
 

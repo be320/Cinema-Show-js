@@ -6,6 +6,7 @@ import Star from "../sideComponents/Star";
 import Plus from "../sideComponents/Plus";
 import Review from "../sideComponents/Review"
 import Favorite from "../sideComponents/Favorite";
+import Error from "../sideComponents/Error";
 import "../style.css";
 const axios = require('axios');
 const imgKey = require('../../GLOBAL/img-key');
@@ -16,6 +17,8 @@ const TV = (props) => {
   const [form,setForm] = useState(false);
   const [review,setReview] = useState(false);
   const [series,setSeries] = useState({});
+  const [error,setError] = useState(false);
+  const [errorMessages,setErrorMessages] = useState([]);
 
   useEffect(()=>{
     getSeries();
@@ -30,6 +33,17 @@ const TV = (props) => {
   const handleForm = (value) => 
   {
     setForm(value);
+  }
+
+  const handleError = (value,errors) => {
+    errors = errors || []; 
+    
+    setError(value);
+    setErrorMessages(errors);
+  };
+
+  const handleSearch = () => {
+
   }
 
   const handleReview = (value) => 
@@ -58,7 +72,7 @@ const TV = (props) => {
     if(form === true)
     {
       return(
-        <Form handleForm={handleForm} />
+        <Form handleForm={handleForm} handleError = {handleError} />
       )
     }
     else
@@ -69,13 +83,22 @@ const TV = (props) => {
     }
   }
 
+  const DrawError = () => {
+    if (error === true) {
+      return <Error handleError={handleError} errorMessages = {errorMessages} />;
+    } else {
+      return <div></div>;
+    }
+  };
+
   return (
     <div className="container">
-      <NavBar  handleForm={handleForm} mainProps={props} />
+      <NavBar  handleForm={handleForm} mainProps={props} handleSearch={handleSearch} />
 
       <div className="body">
         <div className="body-overlay"></div>
         <DrawForm />
+        <DrawError />
         <DrawReview />
         <div className="movie-structure">
           <div className="portofolio">

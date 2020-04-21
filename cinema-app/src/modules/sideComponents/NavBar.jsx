@@ -16,11 +16,15 @@ const NavBar = (props) =>
 
   const movieClick = () => {
     props.showMovies();
+    props.handleSearch(false);
+    document.getElementById("search-txt").value = "";
     props.mainProps.history.push('/');
   }
 
   const seriesClick = () => {
     props.showSeries();
+    props.handleSearch(false);
+    document.getElementById("search-txt").value = "";
     props.mainProps.history.push('/');
   }
 
