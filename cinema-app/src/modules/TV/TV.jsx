@@ -5,6 +5,7 @@ import Poster from "../../assets/images/you.jpg";
 import Star from "../sideComponents/Star";
 import Plus from "../sideComponents/Plus";
 import Review from "../sideComponents/Review"
+import Favorite from "../sideComponents/Favorite";
 import "../style.css";
 const axios = require('axios');
 const imgKey = require('../../GLOBAL/img-key');
@@ -92,6 +93,9 @@ const TV = (props) => {
               <p className="rating-value">
                 <span className="bold-rating">{series.rating}</span>/10
               </p>
+              <div className="love">
+              <Favorite  />
+              </div>
             </div>
           </div>
           <div className="details">

@@ -196,10 +196,6 @@ const Form = ({ handleForm }) => {
       email: email,
       password: md5(password)
     }
-
-
-  
-
   
   }
 
@@ -213,7 +209,7 @@ const Form = ({ handleForm }) => {
     }
 
     axios.post(
-      'http://localhost:8080/add-user',newUser
+      'http://localhost:8080/signup',newUser
     ).then( response => {
       console.log(response);
       handleForm(false);

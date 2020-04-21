@@ -3,6 +3,7 @@ import NavBar from "../sideComponents/NavBar";
 import Form from "../sideComponents/Form";
 import Poster from "../../assets/images/you.jpg";
 import Star from "../sideComponents/Star";
+import Favorite from "../sideComponents/Favorite";
 import Plus from "../sideComponents/Plus";
 import Review from "../sideComponents/Review"
 import "../style.css";
@@ -96,6 +97,9 @@ const Movie = (props) => {
               <p className="rating-value">
                 <span className="bold-rating">{movie.rating}</span>/10
               </p>
+              <div className="love">
+              <Favorite  />
+              </div>
             </div>
           </div>
           <div className="details">

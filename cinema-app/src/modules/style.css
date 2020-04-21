@@ -361,6 +361,23 @@
     border-radius: 50%;
     padding: 15px;
   }
+
+  .love {
+    background-color: white;
+    border: 2px solid white;
+    min-width: 10px;
+    border-radius: 50%;
+    padding: 10px;
+    margin-left: 160px;
+  }
+
+  .love:hover{
+    cursor: pointer;
+  }
+
+  #heart:hover{
+    color: #d52121;
+  }
   
   .google {
     background-color: white;
