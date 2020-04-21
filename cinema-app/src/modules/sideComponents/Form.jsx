@@ -172,7 +172,7 @@ const SignUpForm = ({handleEmail,handlePassword,handleShow,handleName,signup}) =
 
 
 
-const Form = ({ handleForm }) => {
+const Form = ({ handleForm, handleError }) => {
   const node = useRef();
   const [showLogin, setShowLogin] = useState(true);
   const [name, setName] = useState('');
@@ -205,7 +205,7 @@ const Form = ({ handleForm }) => {
     {
       name: name,
       email: email,
-      password: md5(password)
+      password: password
     }
 
     axios.post(
@@ -213,8 +213,13 @@ const Form = ({ handleForm }) => {
     ).then( response => {
       console.log(response);
       handleForm(false);
-    }).catch( function(error){
-      console.log(error);
+    }).catch( error => {
+      const errors = error.response.data.error.data;
+      errors.map((e) => {
+        console.log(e.msg);
+      })
+      handleForm(false);
+      handleError(true,errors);
     });
 
   }

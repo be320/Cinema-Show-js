@@ -5,10 +5,15 @@ const bcrypt = require("bcryptjs");
 exports.addUser = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const error = new Error("Validation Failed");
+    const error = {};
     error.statusCode = 422;
     error.data = errors.array();
-    throw error;
+    res.status(422).json({
+        // success on create
+        message: "Failed to add User",
+        error: error
+      });
+      throw error;
   }
 
   const name = req.body.name;
@@ -29,7 +34,9 @@ exports.addUser = (req, res, next) => {
             user: { user: name }
           });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+           console.log(err)
+        });
     })
     .catch(err => {
       if (!err.statusCode) {

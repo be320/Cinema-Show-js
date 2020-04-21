@@ -6,6 +6,7 @@ import Card from "../sideComponents/Card";
 import "../style.css";
 import { connect } from 'react-redux';
 import { showMovies,showSeries } from '../../redux';
+import Error from "../sideComponents/Error";
 const axios = require("axios");
 
 const Board = props => {
@@ -15,6 +16,8 @@ const Board = props => {
   const [count, setCount] = useState("");
   const [page, setPage] = useState(0);
   const [pages, setPages] = useState([]);
+  const [error,setError] = useState(false);
+  const [errorMessages,setErrorMessages] = useState([]);
   
 
 
@@ -51,6 +54,13 @@ const Board = props => {
     setForm(value);
   };
 
+  const handleError = (value,errors) => {
+    errors = errors || []; 
+    
+    setError(value);
+    setErrorMessages(errors);
+  };
+
   const handlePage = e => {
     console.log(e.target.className)
     setPage(e.target.className);
@@ -58,7 +68,15 @@ const Board = props => {
 
   const DrawForm = () => {
     if (form === true) {
-      return <Form handleForm={handleForm} />;
+      return <Form handleForm={handleForm} handleError = {handleError} />;
+    } else {
+      return <div></div>;
+    }
+  };
+
+  const DrawError = () => {
+    if (error === true) {
+      return <Error handleError={handleError} errorMessages = {errorMessages} />;
     } else {
       return <div></div>;
     }
@@ -70,6 +88,7 @@ const Board = props => {
       <div className="body">
         <div className="body-overlay"></div>
         <DrawForm />
+        <DrawError />
 
         <Search />
 
