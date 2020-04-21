@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { showMovies,showSeries } from '../../redux';
 
 
+
 const NavBar = (props) => 
 {
   console.log(props)
@@ -15,15 +16,19 @@ const NavBar = (props) =>
   }
 
   const movieClick = () => {
+    console.log(props.mainProps.history.location.pathname);
     props.showMovies();
     props.handleSearch(false);
+    if(props.mainProps.history.location.pathname === "/")
     document.getElementById("search-txt").value = "";
     props.mainProps.history.push('/');
+  
   }
 
   const seriesClick = () => {
     props.showSeries();
     props.handleSearch(false);
+    if(props.mainProps.history.location.pathname === "/")
     document.getElementById("search-txt").value = "";
     props.mainProps.history.push('/');
   }

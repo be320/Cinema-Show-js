@@ -158,13 +158,14 @@ const Board = props => {
       }
       else{
         return(
-          <img
-          src={NotFound}
-          alt="notFound"
-          width="565px"
-          height="300px"
-          className="notFound"
-        />
+        //   <img
+        //   src={NotFound}
+        //   alt="notFound"
+        //   width="565px"
+        //   height="300px"
+        //   className="notFound"
+        // />
+        <div>Not Found</div>
         )
       }
 
