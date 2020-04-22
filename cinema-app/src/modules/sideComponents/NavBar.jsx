@@ -1,17 +1,15 @@
 import React from 'react';
 import Logo from '../../assets/images/logo.PNG';
 import { connect } from 'react-redux';
-import { showMovies,showSeries } from '../../redux';
+import { showMovies,showSeries,deleteToken, deleteUser } from '../../redux';
 
 
 
 const NavBar = (props) => 
 {
-  console.log(props)
 
   const showAuth = () => 
   {
-    console.log('navbar action')
     props.handleForm(true);
   }
 
@@ -33,6 +31,33 @@ const NavBar = (props) =>
     props.mainProps.history.push('/');
   }
 
+  const logout = () => {
+    props.deleteToken();
+    props.deleteUser();
+  }
+
+  const RenderAuth = () => {
+    if(props.token === ''){
+      return(
+        <div id="cat-auth" onClick={showAuth}>
+        Login / Register
+      </div>
+      );
+    }
+    else{
+      return(
+        <div className="header">
+        <div className="user-welcome">
+          Welcome , {props.user.name}
+        </div>
+      <div id="cat-auth" onClick={logout}>
+        Logout
+      </div>
+      </div>
+        );
+    }
+  }
+
 
     return(
 <div className="header">
@@ -50,24 +75,22 @@ const NavBar = (props) =>
         <div className="cat" onClick={seriesClick}>
           TV Shows
         </div>
-
-        <div className="cat">
-          Celebrities
-        </div>
-        <div id="cat-auth" onClick={showAuth}>
-          Login / Register
-        </div>
+        <RenderAuth />
       </div> 
     );
 }
 
 const mapStateToProps = state => ({
   content: state.contentReducer.content,
+  token: state.tokenReducer.token,
+  user: state.userReducer.user
 })
 
 const mapDispatchToProps = {
     showMovies,
-    showSeries
+    showSeries,
+    deleteToken,
+    deleteUser
 };
 
 export default connect(

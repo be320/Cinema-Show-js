@@ -8,6 +8,7 @@ import Review from "../sideComponents/Review"
 import Favorite from "../sideComponents/Favorite";
 import Error from "../sideComponents/Error";
 import "../style.css";
+import ReviewButton from "../sideComponents/ReviewButton";
 const axios = require('axios');
 const imgKey = require('../../GLOBAL/img-key');
 const youtube = require('../../GLOBAL/youtube');
@@ -117,7 +118,7 @@ const TV = (props) => {
                 <span className="bold-rating">{series.rating}</span>/10
               </p>
               <div className="love">
-              <Favorite  />
+              <Favorite handleForm={handleForm} />
               </div>
             </div>
           </div>
@@ -172,11 +173,7 @@ const TV = (props) => {
             <div className="reviews">
               <div className="review-head">
                 <h2>Reviews:</h2>
-                <div id="review-button" onClick={
-                  ()=>handleReview(true)}>
-                  <Plus />
-                  <p>Review </p>
-                </div>
+                <ReviewButton handleReview={handleReview} handleForm={handleForm} />
               </div>
 
               <div className="reviews-list">

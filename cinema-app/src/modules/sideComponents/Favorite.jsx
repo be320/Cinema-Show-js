@@ -1,5 +1,7 @@
 import React ,{useState} from 'react'
 import LoveIcon from '@material-ui/icons/Favorite';
+import { connect } from 'react-redux';
+const axios = require('axios')
 
 const Favorite = (props) => 
 {
@@ -24,11 +26,28 @@ const Favorite = (props) =>
     }
 
     const loveMe = () => {
-        setStyle({
-            ...style,color:'#d52121'
-        })
-        const check = pressed;
-        setPressed(!check);
+        if(props.token === ''){
+            props.handleForm(true);
+        }
+        else{
+            setStyle({
+                ...style,color:'#d52121'
+            })
+            const check = pressed;
+            if(check === false){ //like movie
+                axios.post(
+                    'http://localhost:8080/user/'+props.user.id+'/likeMovie/'+props.movieId
+                  ).then( response => {
+                    console.log(response);
+                  }).catch( error => {
+                    console.log(error);
+                  });
+              
+            }
+            setPressed(!check);
+            console.log(props.user);
+        }
+       
     }
 
 return(
@@ -38,4 +57,13 @@ return(
 )
 }
 
-export default Favorite;
+const mapStateToProps = state => ({
+    token: state.tokenReducer.token,
+    user: state.userReducer.user
+  })
+  
+  
+  export default connect(
+      mapStateToProps
+  )(Favorite);
+  

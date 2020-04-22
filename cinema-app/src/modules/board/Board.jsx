@@ -5,7 +5,7 @@ import Search from "../sideComponents/Search";
 import Card from "../sideComponents/Card";
 import "../style.css";
 import { connect } from 'react-redux';
-import { showMovies,showSeries } from '../../redux';
+import { showMovies,showSeries, addToken, deleteToken } from '../../redux';
 import Error from "../sideComponents/Error";
 import NotFound from "../../assets/images/not found.jpg"
 const axios = require("axios");
@@ -124,8 +124,6 @@ const Board = props => {
   };
 
   const RenderBoard = () => {
-    console.log(series);
-    console.log(movies);
     if(props.content)
     {
       if(series.length>0){
@@ -148,7 +146,6 @@ const Board = props => {
       }
     }
     else{
-
       if(movies.length>0){
         return(
           movies.map(m => (
@@ -202,11 +199,14 @@ const Board = props => {
 
 const mapStateToProps = state => ({
   content: state.contentReducer.content,
+  token: state.tokenReducer.token
 })
 
 const mapDispatchToProps = {
     showMovies,
-    showSeries
+    showSeries,
+    addToken,
+    deleteToken
 };
 
 export default connect(

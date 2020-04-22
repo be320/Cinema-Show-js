@@ -23,4 +23,10 @@ router.post('/signup',[
    
 ], usersController.addUser);
 
+router.post('/login',usersController.login);
+
+router.get('/user/:id',usersController.getUser);
+
+router.post('/user/:userId/likeMovie/:movieId',usersController.likeMovie);
+
 module.exports = router;

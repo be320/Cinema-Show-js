@@ -5,7 +5,8 @@ import UserIcon from "@material-ui/icons/Person";
 import EmailIcon from "@material-ui/icons/Email";
 import PasswordIcon from "@material-ui/icons/VpnKey";
 import { SocialIcon } from "react-social-icons";
-const md5 = require('md5');
+import { connect } from 'react-redux';
+import { addToken, addUser} from '../../redux';
 const axios = require('axios')
 
 
@@ -172,12 +173,13 @@ const SignUpForm = ({handleEmail,handlePassword,handleShow,handleName,signup}) =
 
 
 
-const Form = ({ handleForm, handleError }) => {
+const Form = (props) => {
   const node = useRef();
   const [showLogin, setShowLogin] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
 
   const handleShow = value => {
     setShowLogin(value);
@@ -187,6 +189,10 @@ const Form = ({ handleForm, handleError }) => {
     setName(e.target.value);
   };
 
+  const getUser = async (id) => {
+    const user = await axios.get('http://localhost:8080/user/'+id);
+    props.addUser(user.data.user)
+  }
 
   const login = () => 
   {
@@ -194,8 +200,25 @@ const Form = ({ handleForm, handleError }) => {
     const oldUser = 
     {
       email: email,
-      password: md5(password)
+      password: password
     }
+
+    let errors = [];
+
+    axios.post(
+      'http://localhost:8080/login',oldUser
+    ).then( response => {
+      props.addToken(response.data.token)
+      getUser(response.data.userId);
+      props.handleForm(false);
+    }).catch( error => {
+      errors.push(error.response.data)
+      errors.map((e) => {
+        console.log(e.msg);
+      })
+      props.handleForm(false);
+      props.handleError(true,errors);
+    });
   
   }
 
@@ -211,22 +234,22 @@ const Form = ({ handleForm, handleError }) => {
     axios.post(
       'http://localhost:8080/signup',newUser
     ).then( response => {
-      console.log(response);
-      handleForm(false);
+      props.addToken(response.data.token)
+      getUser(response.data.userId);
+      props.handleForm(false);
     }).catch( error => {
       const errors = error.response.data.error.data;
       errors.map((e) => {
         console.log(e.msg);
       })
-      handleForm(false);
-      handleError(true,errors);
+      props.handleForm(false);
+      props.handleError(true,errors);
     });
 
   }
 
  
   const handleEmail = e => {
-    console.log(email)
     setEmail(e.target.value);
   };
   const handlePassword = e => {
@@ -235,7 +258,7 @@ const Form = ({ handleForm, handleError }) => {
 
   const closeAction = e => {
     if (!node.current.contains(e.target)) {
-      handleForm(false);
+      props.handleForm(false);
     }
   };
 
@@ -267,4 +290,19 @@ const Form = ({ handleForm, handleError }) => {
   );
 };
 
-export default Form;
+const mapStateToProps = state => ({
+  content: state.contentReducer.content,
+  token: state.tokenReducer.token,
+  user: state.userReducer.user
+})
+
+const mapDispatchToProps = {
+    addToken,
+    addUser
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Form);
+

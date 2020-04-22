@@ -4,10 +4,11 @@ import Form from "../sideComponents/Form";
 import Poster from "../../assets/images/you.jpg";
 import Star from "../sideComponents/Star";
 import Favorite from "../sideComponents/Favorite";
-import Plus from "../sideComponents/Plus";
 import Review from "../sideComponents/Review"
 import Error from "../sideComponents/Error";
 import "../style.css";
+import ReviewButton from "../sideComponents/ReviewButton";
+import { connect } from 'react-redux';
 const axios = require('axios');
 const imgKey = require('../../GLOBAL/img-key');
 const youtube = require('../../GLOBAL/youtube');
@@ -123,7 +124,7 @@ const Movie = (props) => {
                 <span className="bold-rating">{movie.rating}</span>/10
               </p>
               <div className="love">
-              <Favorite  />
+              <Favorite handleForm={handleForm} movieId={props.match.params.id}  />
               </div>
             </div>
           </div>
@@ -178,11 +179,7 @@ const Movie = (props) => {
             <div className="reviews">
               <div className="review-head">
                 <h2>Reviews:</h2>
-                <div id="review-button" onClick={
-                  ()=>handleReview(true)}>
-                  <Plus />
-                  <p>Review </p>
-                </div>
+                <ReviewButton handleReview={handleReview} handleForm={handleForm} />
               </div>
 
               <div className="reviews-list">
@@ -212,4 +209,12 @@ const Movie = (props) => {
   );
 };
 
-export default Movie;
+const mapStateToProps = state => ({
+  token: state.tokenReducer.token,
+  user: state.userReducer.user
+})
+
+
+export default connect(
+	mapStateToProps
+)(Movie);
