@@ -5,6 +5,7 @@ const movieController = require('../controllers/movies');
 const tvController = require('../controllers/tvs');
 
 
+
 router.get('/',(req,res,next)=>
 {
     res.send('<h1>Hey Bitch</h1>')

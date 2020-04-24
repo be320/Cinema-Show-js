@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const app = express();
 const path = require('path');
 const Routes = require('./routes/show')
-const UserRoutes = require('./routes/user')
+const UserRoutes = require('./routes/user');
+const ReviewRoutes = require('./routes/review');
 const sequelize = require('./util/database')
 
 
@@ -35,6 +36,7 @@ app.use(bodyParser.json());
 
 app.use(UserRoutes);
 app.use(Routes);
+app.use(ReviewRoutes);
 
 app.use((error, req, res, next)=>{
   console.log(error);

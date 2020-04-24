@@ -3,7 +3,7 @@ const Actor = require('../models/actor');
 const Genre = require('../models/genre');
 const GenreOfMovie = require('../models/genreOfMovie');
 const ActorInMovie = require('../models/actorInMovie');
-
+const MovieReview = require('../models/movieReview');
 const Axios = require("axios");
 const apiKey = require("../GLOBAL/api-key");
 const Sequelize = require('sequelize');

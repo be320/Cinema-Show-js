@@ -4,7 +4,8 @@ import Form from "../sideComponents/Form";
 import Poster from "../../assets/images/you.jpg";
 import Star from "../sideComponents/Star";
 import Plus from "../sideComponents/Plus";
-import Review from "../sideComponents/Review"
+import Review from "../sideComponents/Review";
+import Comment from "../sideComponents/Comment";
 import Favorite from "../sideComponents/Favorite";
 import Error from "../sideComponents/Error";
 import "../style.css";
@@ -20,6 +21,7 @@ const TV = (props) => {
   const [series,setSeries] = useState({});
   const [error,setError] = useState(false);
   const [errorMessages,setErrorMessages] = useState([]);
+  const [comments,setComments] = useState([]);
 
   useEffect(()=>{
     getSeries();
@@ -28,7 +30,18 @@ const TV = (props) => {
   const getSeries = async () => {
     const data = await axios.get('http://localhost:8080/tv/'+props.match.params.id);
     setSeries(data.data.serie)
-    console.log(data.data.serie)
+   
+    const temp = await axios.get('http://localhost:8080/tvRates/'+props.match.params.id);
+    console.log(temp.data.comments)
+    setComments(temp.data.comments)
+  }
+
+  const RenderComments = () => {
+
+    return( comments.map((comment) => (
+      <Comment data={comment}  />
+    )))
+   
   }
 
   const handleForm = (value) => 
@@ -52,12 +65,16 @@ const TV = (props) => {
     setReview(value);
   }
 
+  const handleComments = (value) => {
+    setComments(value);
+  }
+
   const DrawReview = () => 
   {
     if(review === true)
     {
       return(
-        <Review handleReview={handleReview} />
+        <Review handleReview={handleReview} movieId={props.match.params.id} content={false} mainProps={props} handleComments={handleComments} comments={comments} />
       )
     }
     else
@@ -177,23 +194,7 @@ const TV = (props) => {
               </div>
 
               <div className="reviews-list">
-                <div className="review-card">
-                  <div className="reviewer-name">
-                    <p>Ahmed Bahaa</p>
-                  </div>
-                  <div className="stars">
-                    <Star />
-                  </div>
-                  <div className="rating-body">
-                    <p>
-                      It is really a very cool series , I am in deep crush with
-                      BECK !!!
-                    </p>
-                  </div>
-                  <div className="date">
-                    <p>17 September 2019</p>
-                  </div>
-                </div>
+              <RenderComments />
               </div>
             </div>
           </div>

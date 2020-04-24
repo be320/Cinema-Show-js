@@ -4,7 +4,8 @@ import Form from "../sideComponents/Form";
 import Poster from "../../assets/images/you.jpg";
 import Star from "../sideComponents/Star";
 import Favorite from "../sideComponents/Favorite";
-import Review from "../sideComponents/Review"
+import Review from "../sideComponents/Review";
+import Comment from "../sideComponents/Comment";
 import Error from "../sideComponents/Error";
 import "../style.css";
 import ReviewButton from "../sideComponents/ReviewButton";
@@ -22,6 +23,7 @@ const Movie = (props) => {
   const [movie,setMovie] = useState({});
   const [error,setError] = useState(false);
   const [errorMessages,setErrorMessages] = useState([]);
+  const [comments,setComments] = useState([]);
 
   useEffect(()=>{
     getMovie();
@@ -30,7 +32,20 @@ const Movie = (props) => {
   const getMovie = async () => {
     const data = await axios.get('http://localhost:8080/movie/'+props.match.params.id);
     setMovie(data.data.movie)
-    console.log(data.data.movie)
+    
+    const temp = await axios.get('http://localhost:8080/movieRates/'+props.match.params.id);
+    console.log(temp.data.comments)
+    setComments(temp.data.comments)
+  }
+
+
+  const RenderComments = () => {
+    console.log(comments);
+
+    return( comments.map((comment) => (
+      <Comment data={comment}  />
+    )))
+   
   }
 
   const handleForm = (value) => 
@@ -38,6 +53,12 @@ const Movie = (props) => {
     setForm(value);
   }
 
+
+  const handleComments = (value) => {
+    setComments(value);
+  }
+
+                                           
   const handleSearch = () => {
 
   }
@@ -63,7 +84,7 @@ const Movie = (props) => {
     if(review === true)
     {
       return(
-        <Review handleReview={handleReview} />
+        <Review handleReview={handleReview} movieId={props.match.params.id} content={false} mainProps={props} handleComments={handleComments} comments={comments} />
       )
     }
     else
@@ -179,27 +200,14 @@ const Movie = (props) => {
             <div className="reviews">
               <div className="review-head">
                 <h2>Reviews:</h2>
-                <ReviewButton handleReview={handleReview} handleForm={handleForm} />
+                <ReviewButton handleReview={handleReview} handleForm={handleForm}  />
               </div>
 
               <div className="reviews-list">
-                <div className="review-card">
-                  <div className="reviewer-name">
-                    <p>Ahmed Bahaa</p>
-                  </div>
-                  <div className="stars">
-                    <Star />
-                  </div>
-                  <div className="rating-body">
-                    <p>
-                      It is really a very cool series , I am in deep crush with
-                      BECK !!!
-                    </p>
-                  </div>
-                  <div className="date">
-                    <p>17 September 2019</p>
-                  </div>
-                </div>
+
+
+              <RenderComments />
+
               </div>
             </div>
           </div>

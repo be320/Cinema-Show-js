@@ -6,8 +6,7 @@ const ReviewButton = (props) => {
 
     const addReview = () => {
         if(props.token === ''){
-           // props.handleForm(true);
-            props.handleReview(true)
+            props.handleForm(true);
         }
         else{
             props.handleReview(true)

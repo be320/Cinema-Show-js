@@ -4,6 +4,7 @@ const router = express.Router();
 const usersController = require('../controllers/users');
 const { body } = require('express-validator/check')
 const User = require('../models/user');
+const reviewController = require('../controllers/reviews');
 
 
 
@@ -28,5 +29,7 @@ router.post('/login',usersController.login);
 router.get('/user/:id',usersController.getUser);
 
 router.post('/user/:userId/likeMovie/:movieId',usersController.likeMovie);
+
+
 
 module.exports = router;
