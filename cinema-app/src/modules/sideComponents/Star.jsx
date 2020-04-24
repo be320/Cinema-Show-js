@@ -1,12 +1,15 @@
 import React from 'react'
 import StarIcon from '@material-ui/icons/StarRate';
 
-const Star = ({style}) => 
+const Star = ({selected = false, onClick = f => f, color="gray"}) => 
 {
+
+
 
 return(
     <div>
-    <StarIcon id="star_0" style={style} />   
+    <StarIcon style={{fontSize: '30px',
+    cursor: 'pointer',color: selected ? "orange" : color}} onClick={onClick} />   
     </div>
 )
 }

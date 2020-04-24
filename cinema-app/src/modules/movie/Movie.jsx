@@ -119,7 +119,7 @@ const Movie = (props) => {
               />
             </div>
             <div className="rating">
-            <Star style={{color:'orange',fontSize: '35px',marginRight: '5px',marginTop:'0px'}} />
+            <Star color="orange" />
               <p className="rating-value">
                 <span className="bold-rating">{movie.rating}</span>/10
               </p>

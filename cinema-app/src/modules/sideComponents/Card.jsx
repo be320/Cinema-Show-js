@@ -20,7 +20,7 @@ const Card = ({data,content}) =>
           <h6>{data.name}</h6>
         </div>
         <div className="rating">
-          <Star style={{color:'orange',fontSize: '30px',marginRight: '5px',marginTop:'0px'}} />
+        <Star color="orange" />
           <p className="rating-value">
             <span className="bold-rating">{data.rating}</span>/10
           </p>

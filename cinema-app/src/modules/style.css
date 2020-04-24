@@ -375,6 +375,7 @@
     border-radius: 50%;
     padding: 10px;
     margin-left: 160px;
+    margin-top: -10px;
   }
 
   .love:hover{
@@ -724,46 +725,11 @@
     background-color: #d52121;
   }
   
-  #star_0{
-    color: gray;
+  
+  .result{
+    color: white;
   }
   
-  #star_1{
-    color: gray;
-  }
-  
-  #star_2{
-    color: gray;
-  }
-  
-  #star_3{
-    color: gray;
-  }
-  
-  #star_4{
-    color: gray;
-  }
-  
-  #star_5{
-    color: gray;
-  }
-  
-  #star_6{
-    color: gray;
-  }
-  
-  #star_7{
-    color: gray;
-  }
-  
-  #star_8{
-    color: gray;
-  }
-  
-  #star_9{
-    color: gray;
-  }
-
 
   div#error-container{
     position: fixed;
@@ -813,7 +779,7 @@
 
   div.user-welcome{
     color: #d52121;
-    margin: 60px;
+    margin: 80px;
     font-size: 20px;
     min-width: 250px;
     font-weight: bold;
